@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Special Day !</title>
+  <link rel="icon" type="image/x-icon" href="asset/favicon/valentine's/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink-light:   #fce4ec;
+      --pink-mid:     #f48fb1;
+      --pink-deep:    #d4547a;
+      --pink-dark:    #a0294e;
+      --wine:         #6b1e35;
+      --yellow-soft:  #fdf3c8;
+      --yellow-warm:  #f5d76e;
+      --yellow-gold:  #e8b84b;
+      --cream:        #fff8f0;
+      --text-dark:    #3d1028;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--text-dark);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Petal rain background ── */
+    .petals-bg {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      top: -60px;
+      font-size: 1.4rem;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      5%   { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* ── Screens ── */
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .screen.active { display: flex; }
+
+    /* ── Decorative corner roses ── */
+    .corner {
+      position: fixed;
+      font-size: 2.5rem;
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .corner.tl { top: 1rem; left: 1rem; }
+    .corner.tr { top: 1rem; right: 1rem; transform: scaleX(-1); }
+    .corner.bl { bottom: 1rem; left: 1rem; transform: scaleY(-1); }
+    .corner.br { bottom: 1rem; right: 1rem; transform: scale(-1,-1); }
+
+    /* ── Card ── */
+    .card {
+      background: linear-gradient(145deg, #fff5f8 0%, #fff9ee 100%);
+      border: 1.5px solid var(--pink-mid);
+      border-radius: 2rem;
+      padding: 3rem 3.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow:
+        0 4px 30px rgba(212,84,122,0.12),
+        0 1px 3px rgba(107,30,53,0.08),
+        inset 0 0 60px rgba(252,228,236,0.4);
+      animation: cardIn 0.7s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(30px) scale(0.96); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
+    }
+
+    .card-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--pink-deep);
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      color: var(--wine);
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+    h1 em { color: var(--pink-deep); font-style: italic; }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: #8a4060;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    /* ── Name input ── */
+    .input-wrap {
+      position: relative;
+      margin-bottom: 1.6rem;
+    }
+    .input-wrap input {
+      width: 100%;
+      padding: 0.9rem 1.2rem 0.9rem 3rem;
+      border: 2px solid var(--pink-mid);
+      border-radius: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--wine);
+      background: #fff8fb;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .input-wrap input:focus {
+      border-color: var(--pink-dark);
+      box-shadow: 0 0 0 3px rgba(212,84,122,0.15);
+    }
+    .input-wrap input::placeholder { color: #d4a0b5; }
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.4rem;
+      background: linear-gradient(135deg, var(--pink-deep), var(--wine));
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      box-shadow: 0 4px 16px rgba(160,41,78,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 24px rgba(160,41,78,0.38);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ── Yes/No screen ── */
+    #screen-question h1 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 0.3rem; }
+    #screen-question .name-display {
+      color: var(--pink-deep);
+      font-style: italic;
+    }
+
+    .btn-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-yes {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.85rem 2rem;
+      background: linear-gradient(135deg, var(--pink-mid), var(--pink-deep));
+      color: #fff;
+      border: none;
+      border-radius: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: font-size 0.35s cubic-bezier(.34,1.56,.64,1),
+                  padding 0.35s cubic-bezier(.34,1.56,.64,1),
+                  box-shadow 0.3s, transform 0.18s;
+      box-shadow: 0 4px 18px rgba(212,84,122,0.3);
+      white-space: nowrap;
+    }
+    .btn-yes:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 24px rgba(212,84,122,0.45);
+    }
+
+    .btn-no {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.8rem;
+      background: transparent;
+      color: var(--pink-dark);
+      border: 2px solid var(--pink-mid);
+      border-radius: 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.3s, font-size 0.3s;
+      white-space: nowrap;
+    }
+    .btn-no:hover { background: var(--pink-light); }
+
+    .no-hint {
+      font-size: 0.82rem;
+      color: #c07090;
+      margin-top: 0.8rem;
+      min-height: 1.2em;
+      font-style: italic;
+      transition: opacity 0.4s;
+    }
+
+    /* ── Flower screen ── */
+    #screen-flowers { background: none; }
+    #screen-flowers .card {
+      max-width: 540px;
+      padding: 2.5rem 3rem 3rem;
+    }
+
+    .bouquet-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 1.2rem 0;
+      animation: floatBouquet 3.5s ease-in-out infinite;
+    }
+    @keyframes floatBouquet {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .message-block {
+      margin-top: 1.2rem;
+    }
+    .personal-message {
+      font-size: 1.25rem;
+      color: #8a3055;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+    .recipient-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--wine);
+      font-weight: 700;
+    }
+    .recipient-name em { color: var(--pink-deep); font-style: italic; }
+
+    .hearts-row {
+      font-size: 1.3rem;
+      letter-spacing: 0.3em;
+      margin: 1rem 0 0;
+      animation: heartPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes heartPulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.12); }
+    }
+
+    /* ── Entry animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeUp 0.7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── Ribbon divider ── */
+    .ribbon {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1.2rem 0;
+      color: var(--pink-mid);
+      font-size: 0.9rem;
+    }
+    .ribbon::before, .ribbon::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--pink-mid), transparent);
+    }
+
+    /* confetti burst */
+    .confetti-piece {
+      position: fixed;
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 999;
+      animation: confettiFly 1.4s ease-out forwards;
+    }
+    @keyframes confettiFly {
+      0%   { opacity:1; transform: translate(0,0) rotate(0deg) scale(1); }
+      100% { opacity:0; transform: translate(var(--dx), var(--dy)) rotate(var(--dr)) scale(0.4); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Corner deco -->
+<div class="corner tl">🌸</div>
+<div class="corner tr">🌸</div>
+<div class="corner bl">🌸</div>
+<div class="corner br">🌸</div>
+
+<!-- Petal rain -->
+<div class="petals-bg" id="petals"></div>
+
+<!-- ══════════════════════════════════
+     SCREEN 1 — Name Entry
+═══════════════════════════════════ -->
+<div class="screen active" id="screen-name">
+  <div class="card">
+    <p class="card-label">✦ A Little Message For You ✦</p>
+    <h1>Before we begin,<br/><em>what's your name?</em></h1>
+    <p class="subtitle">I have something that's really special for you 🌹</p>
+
+    <div class="ribbon">❤️</div>
+
+    <div class="input-wrap">
+      <span class="input-icon">✨</span>
+      <input type="text" id="nameInput" placeholder="Your name here…" maxlength="30" autocomplete="off"/>
+    </div>
+    <button class="btn-primary" onclick="goToQuestion()">
+      Continue &nbsp;💌
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 2 — Yes / No Question
+═══════════════════════════════════ -->
+<div class="screen" id="screen-question">
+  <div class="card">
+    <p class="card-label">✦ A Very Important Question ✦</p>
+    <h1><span class="name-display" id="qName"></span>,<br/>Do you really love me?</h1>
+    <p class="subtitle">Choose wisely…</p>
+    <div class="ribbon">🌸</div>
+
+    <div class="btn-area">
+      <button class="btn-yes" id="btnYes" onclick="goToFlowers()">
+        Yes! 🥰
+      </button>
+      <button class="btn-no" id="btnNo" onclick="pressNo()">
+        No 🙁
+      </button>
+    </div>
+    <p class="no-hint" id="noHint"></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SCREEN 3 — Flowers & Message
+═══════════════════════════════════ -->
+<div class="screen" id="screen-flowers">
+  <div class="card">
+    <p class="card-label" style="animation-delay:0.1s">✦ With All My Heart ✦</p>
+
+    <!-- ── Personalised text ABOVE bouquet ── -->
+    <!-- ✏️  EDIT YOUR MESSAGE BELOW -->
+    <div class="message-block fade-up" style="animation-delay:0.2s; margin-bottom:0;">
+      <p class="personal-message" id="personalMsg">
+        Hey sayang !, Aku bikin website ini yang ngga seberapa untukmu,
+        jujur aku ga ekspek kita bakal selama ini karena aku banyak kurangnya daripada
+        kelebihan nya, kamu itu perempuan terbaik yang pernah berhubungan dengan aku,
+        maaf aku cuman manusia biasa yang ngga bisa apa-apa, tapi aku bakal tetep cinta
+        sayang dan kasih yang terbaik buat kamu, I love you so much sayangku 🤍🌷
+      </p>
+    </div>
+    <!-- ✏️  END OF MESSAGE -->
+
+    <div class="ribbon fade-up" style="animation-delay:0.4s">🌹</div>
+
+    <!-- SVG Bouquet -->
+    <div class="bouquet-wrap fade-up" style="animation-delay:0.55s">
+      <svg width="280" height="300" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Stems -->
+        <path d="M100 260 Q90 200 110 160" stroke="#4a8c3f" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M130 265 Q128 200 130 155" stroke="#4a8c3f" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M158 262 Q168 200 152 158" stroke="#4a8c3f" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M82 258 Q68 200 88 148" stroke="#4a8c3f" stroke-width="3" stroke-linecap="round"/>
+        <path d="M178 256 Q192 198 172 145" stroke="#4a8c3f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Leaves -->
+        <ellipse cx="95" cy="210" rx="13" ry="7" fill="#66bb6a" transform="rotate(-30 95 210)"/>
+        <ellipse cx="148" cy="215" rx="13" ry="7" fill="#66bb6a" transform="rotate(20 148 215)"/>
+        <ellipse cx="78" cy="205" rx="11" ry="6" fill="#81c784" transform="rotate(-40 78 205)"/>
+        <ellipse cx="170" cy="205" rx="11" ry="6" fill="#81c784" transform="rotate(35 170 205)"/>
+        <ellipse cx="128" cy="218" rx="10" ry="5" fill="#a5d6a7" transform="rotate(-10 128 218)"/>
+
+        <!-- Ribbon / Wrap -->
+        <path d="M75 255 Q140 240 205 255 L198 278 Q140 268 82 278 Z" fill="#f48fb1" opacity="0.85"/>
+        <path d="M82 278 Q140 268 198 278 L196 285 Q140 276 84 285 Z" fill="#d4547a" opacity="0.9"/>
+        <!-- Bow -->
+        <ellipse cx="140" cy="253" rx="18" ry="10" fill="#e91e8c" opacity="0.7" transform="rotate(-15 140 253)"/>
+        <ellipse cx="140" cy="253" rx="18" ry="10" fill="#e91e8c" opacity="0.7" transform="rotate(15 140 253)"/>
+        <circle cx="140" cy="253" r="7" fill="#f48fb1"/>
+
+        <!-- ── Rose 1 (centre, deep pink) ── -->
+        <g transform="translate(130,155)">
+          <circle cx="0" cy="0" r="20" fill="#e8759a"/>
+          <ellipse cx="-8" cy="-5" rx="13" ry="11" fill="#d4547a" opacity="0.85"/>
+          <ellipse cx="8"  cy="-5" rx="13" ry="11" fill="#d4547a" opacity="0.85"/>
+          <ellipse cx="0"  cy="-12" rx="10" ry="9"  fill="#c43c6a" opacity="0.75"/>
+          <ellipse cx="-6" cy="6"  rx="10" ry="8"   fill="#e8759a" opacity="0.9"/>
+          <ellipse cx="6"  cy="6"  rx="10" ry="8"   fill="#e8759a" opacity="0.9"/>
+          <circle cx="0" cy="0" r="7" fill="#a0294e"/>
+          <circle cx="0" cy="0" r="3.5" fill="#7d1e3d"/>
+        </g>
+
+        <!-- ── Rose 2 (left, soft pink) ── -->
+        <g transform="translate(100,148)">
+          <circle cx="0" cy="0" r="17" fill="#f48fb1"/>
+          <ellipse cx="-7" cy="-4" rx="11" ry="9" fill="#e8759a" opacity="0.85"/>
+          <ellipse cx="7"  cy="-4" rx="11" ry="9" fill="#e8759a" opacity="0.85"/>
+          <ellipse cx="0"  cy="-10" rx="8"  ry="7" fill="#d4547a" opacity="0.75"/>
+          <ellipse cx="-5" cy="5"  rx="8"  ry="7" fill="#f48fb1" opacity="0.9"/>
+          <ellipse cx="5"  cy="5"  rx="8"  ry="7" fill="#f48fb1" opacity="0.9"/>
+          <circle cx="0" cy="0" r="5.5" fill="#c43c6a"/>
+          <circle cx="0" cy="0" r="2.5" fill="#a0294e"/>
+        </g>
+
+        <!-- ── Rose 3 (right, deep rose) ── -->
+        <g transform="translate(162,150)">
+          <circle cx="0" cy="0" r="17" fill="#d4547a"/>
+          <ellipse cx="-7" cy="-4" rx="11" ry="9" fill="#c43c6a" opacity="0.85"/>
+          <ellipse cx="7"  cy="-4" rx="11" ry="9" fill="#c43c6a" opacity="0.85"/>
+          <ellipse cx="0"  cy="-10" rx="8"  ry="7" fill="#a0294e" opacity="0.75"/>
+          <ellipse cx="-5" cy="5"  rx="8"  ry="7" fill="#d4547a" opacity="0.9"/>
+          <ellipse cx="5"  cy="5"  rx="8"  ry="7" fill="#d4547a" opacity="0.9"/>
+          <circle cx="0" cy="0" r="5.5" fill="#7d1e3d"/>
+          <circle cx="0" cy="0" r="2.5" fill="#6b1e35"/>
+        </g>
+
+        <!-- ── Rose 4 (far left, blush) ── -->
+        <g transform="translate(80,145)">
+          <circle cx="0" cy="0" r="15" fill="#fce4ec"/>
+          <ellipse cx="-6" cy="-4" rx="10" ry="8" fill="#f8bbd9" opacity="0.9"/>
+          <ellipse cx="6"  cy="-4" rx="10" ry="8" fill="#f8bbd9" opacity="0.9"/>
+          <ellipse cx="0"  cy="-9"  rx="7"  ry="6" fill="#f48fb1" opacity="0.8"/>
+          <ellipse cx="-4" cy="5"  rx="7"  ry="6" fill="#fce4ec" opacity="0.9"/>
+          <ellipse cx="4"  cy="5"  rx="7"  ry="6" fill="#fce4ec" opacity="0.9"/>
+          <circle cx="0" cy="0" r="4.5" fill="#e8759a"/>
+          <circle cx="0" cy="0" r="2"   fill="#d4547a"/>
+        </g>
+
+        <!-- ── Rose 5 (far right, yellow-pink) ── -->
+        <g transform="translate(180,143)">
+          <circle cx="0" cy="0" r="15" fill="#f5d76e"/>
+          <ellipse cx="-6" cy="-4" rx="10" ry="8" fill="#f0c040" opacity="0.85"/>
+          <ellipse cx="6"  cy="-4" rx="10" ry="8" fill="#f0c040" opacity="0.85"/>
+          <ellipse cx="0"  cy="-9"  rx="7"  ry="6" fill="#e8b84b" opacity="0.8"/>
+          <ellipse cx="-4" cy="5"  rx="7"  ry="6" fill="#f5d76e" opacity="0.9"/>
+          <ellipse cx="4"  cy="5"  rx="7"  ry="6" fill="#f5d76e" opacity="0.9"/>
+          <circle cx="0" cy="0" r="4.5" fill="#e8a020"/>
+          <circle cx="0" cy="0" r="2"   fill="#c47d10"/>
+        </g>
+
+        <!-- Baby's breath / filler -->
+        <circle cx="112" cy="132" r="4" fill="#fff" opacity="0.9"/>
+        <circle cx="118" cy="126" r="3" fill="#ffe4f0" opacity="0.9"/>
+        <circle cx="148" cy="128" r="4" fill="#fff" opacity="0.9"/>
+        <circle cx="155" cy="135" r="3" fill="#ffe4f0" opacity="0.9"/>
+        <circle cx="92"  cy="136" r="3.5" fill="#fff" opacity="0.8"/>
+        <circle cx="170" cy="130" r="3.5" fill="#fff" opacity="0.8"/>
+        <circle cx="178" cy="124" r="2.5" fill="#ffe4f0" opacity="0.9"/>
+        <circle cx="88"  cy="127" r="2.5" fill="#ffe4f0" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <div class="ribbon fade-up" style="animation-delay:0.7s">💛</div>
+
+    <!-- ── Name line ── -->
+    <div class="message-block fade-up" style="animation-delay:0.85s">
+      <p class="recipient-name">
+        I hope you love me the way i really love you, <em id="flowerName"></em>! 🤍💐
+      </p>
+      <p class="hearts-row">♥ ♥ ♥</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════  SCRIPT  ═══════════════════════════════ -->
+<script>
+  /* ── Petal rain ── */
+  const petals = document.getElementById('petals');
+  const petalEmojis = ['🌸','🌺','🌹','💐','🌷','✿','❀'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+    p.style.left     = Math.random() * 100 + 'vw';
+    p.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
+    p.style.animationDuration  = (7 + Math.random() * 10) + 's';
+    p.style.animationDelay     = (Math.random() * 12) + 's';
+    p.style.opacity = 0;
+    petals.appendChild(p);
+  }
+
+  let userName = '';
+  let noCount  = 0;
+  let yesSize  = 1;
+
+  const noHints = [
+    'Are you sure? 🥺',
+    'Think again… 👉👈',
+    'My heart is breaking… 💔',
+    'Just say yes! Please? 🥹',
+    'One more chance! 🌹',
+    'The flowers are waiting… 🌸',
+    'You really won\'t? 😢',
+    'Okay fine… just kidding, pick Yes! 😤',
+    'My roses are wilting… 🥀',
+    'Last warning! 😡... just kidding 🥺',
+  ];
+
+  function switchScreen(fromId, toId) {
+    document.getElementById(fromId).style.display = 'none';
+    const next = document.getElementById(toId);
+    next.style.display = 'flex';
+    // re-trigger card animation
+    const card = next.querySelector('.card');
+    if (card) {
+      card.style.animation = 'none';
+      void card.offsetWidth;
+      card.style.animation = '';
+    }
+  }
+
+  function goToQuestion() {
+    const input = document.getElementById('nameInput');
+    userName = input.value.trim();
+    if (!userName) { input.focus(); input.style.borderColor='#d4547a'; return; }
+    input.style.borderColor = '';
+    document.getElementById('qName').textContent = userName;
+    switchScreen('screen-name', 'screen-question');
+  }
+
+  function pressNo() {
+    noCount++;
+    yesSize += 0.18;
+
+    const yes = document.getElementById('btnYes');
+    const no  = document.getElementById('btnNo');
+    const hint = document.getElementById('noHint');
+
+    yes.style.fontSize = (1.1 * yesSize) + 'rem';
+    yes.style.padding  = `${0.85 + noCount * 0.08}rem ${2 + noCount * 0.12}rem`;
+
+    // Shrink & fade No button
+    const shrink = Math.max(0.6, 1 - noCount * 0.06);
+    const fade   = Math.max(0.25, 1 - noCount * 0.08);
+    no.style.transform = `scale(${shrink})`;
+    no.style.opacity   = fade;
+
+    hint.textContent = noHints[Math.min(noCount - 1, noHints.length - 1)];
+
+    // After too many clicks, hide No
+    if (noCount >= 10) { no.style.display = 'none'; }
+  }
+
+  function confettiBurst(x, y) {
+    const colors = ['#f48fb1','#f5d76e','#d4547a','#fce4ec','#e8b84b','#c43c6a','#fff'];
+    for (let i = 0; i < 28; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      const angle = (Math.random() * 360) * (Math.PI / 180);
+      const dist  = 80 + Math.random() * 150;
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width  = (6 + Math.random() * 8) + 'px';
+      el.style.height = (6 + Math.random() * 8) + 'px';
+      el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+      el.style.setProperty('--dr', (Math.random() * 720 - 360) + 'deg');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }
+  }
+
+  function goToFlowers(e) {
+    const btn = document.getElementById('btnYes');
+    const r   = btn.getBoundingClientRect();
+    confettiBurst(r.left + r.width / 2, r.top + r.height / 2);
+
+    document.getElementById('flowerName').textContent = userName;
+
+    setTimeout(() => {
+      switchScreen('screen-question', 'screen-flowers');
+      // re-trigger fade-up elements
+      document.querySelectorAll('#screen-flowers .fade-up').forEach((el, i) => {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = `fadeUp 0.7s cubic-bezier(.22,1,.36,1) ${el.style.animationDelay || '0s'} forwards`;
+      });
+    }, 350);
+  }
+
+  // Allow Enter key on name input
+  document.getElementById('nameInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') goToQuestion();
+  });
+</script>
+</body>
+</html>

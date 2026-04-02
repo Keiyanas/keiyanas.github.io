@@ -1,140 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verkyana.js</title>
-  <link rel="stylesheet" href="style index.css">
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/typeit@8.7.1/dist/index.umd.js"></script>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <script>
-    document.addEventListener("keydown", (event) => {
-      if (event.ctrlKey && ["c", "u", "s"].includes(event.key.toLowerCase())) {
-        event.preventDefault();
-      }
-      if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
-        event.preventDefault();
-      }
-    });
-  </script>
-  <script>
-    document.addEventListener("contextmenu", (event) => event.preventDefault());
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verkyanas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="asset/favicon/favicon.ico">
 </head>
-<body>
-    <audio autoplay loop>
-      <source src="Moon Prison.mp3" type="audio/mpeg">
-    </audio>
+<body oncontextmenu="return false;">
 
-    <!-- Background -->
-    <div class="background-container">
-      <div class="content">
+  <!-- Background Video -->
+  <div id="bg-video-wrap">
+    <video id="bg-video" autoplay muted loop playsinline
+      src="https://fern.wtf/assets/roll/yes.mp4">
+    </video>
+    <div id="bg-overlay"></div>
+  </div>
 
-          <!-- Navigation -->
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="https://discord.com/channels/@me/984419950204702720">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- Background Audio — swap music.mp3 with your own file -->
+  <audio id="bg-music" loop>  
+    <source src="asset/bgm.mp3" type="audio/mpeg">
+  </audio>
 
-      <!-- Header -->
-  <header>
-    <h1>Hello World!</h1>
-  </header>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <div id="enter-world">
+      <span class="asterisk">*&gt;</span>
+      <span class="enter-text">Enter World</span>
+      <span class="asterisk">&lt;*</span>
+    </div>
+    <p class="deco">— ✦ —</p>
+  </div>
 
-    <div id="typewriter"></div>
-    <script>new TypeIt("#typewriter", { 
-      lifeLike: false, 
-      speed: 0 
-  })
-    .type("A")
-    .pause(547)
-    .type(" ")
-    .pause(221)
-    .type("d")
-    .pause(196)
-    .type("e")
-    .pause(221)
-    .type("v")
-    .pause(189)
-    .type("e")
-    .pause(123)
-    .type("l")
-    .pause(182)
-    .type("o")
-    .pause(202)
-    .type("p")
-    .pause(156)
-    .type("e")
-    .pause(104)
-    .type("r")
-    .pause(150)
-    .type(".")
-    .pause(788)
-    .delete(1)
-    .pause(501)
-    .delete(1)
-    .pause(47)
-    .delete(1)
-    .pause(32)
-    .delete(1)
-    .pause(32)
-    .delete(1)
-    .pause(31)
-    .delete(1)
-    .pause(31)
-    .delete(1)
-    .pause(31)
-    .delete(1)
-    .pause(32)
-    .delete(1)
-    .pause(31)
-    .delete(1)
-    .pause(32)
-    .delete(1)
-    .pause(32)
-    .delete(1)
-    .pause(1303)
-    .type("U")
-    .pause(814)
-    .type("n")
-    .pause(143)
-    .type("t")
-    .pause(462)
-    .type("i")
-    .pause(242)
-    .type("l")
-    .pause(124)
-    .type(" ")
-    .pause(195)
-    .type("t")
-    .pause(149)
-    .type("h")
-    .pause(118)
-    .type("e")
-    .pause(130)
-    .type("n")
-    .pause(364)
-    .type(".")
-    .go();</script>
-  </header>
+  <!-- Main Site -->
+  <div id="site">
 
-  <!-- Main Content -->
-  <main>
-    <section> 
-      <h1 class="title">Verkyana</h1>
-      <div class="profile-card">
-      <img class="avatar" src="Single Rose.gif" alt="#Avatar">
-      </video>
-    </section>
-  </main>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="https://discord.com/users/932465298248966195" target="_blank">Contact</a>
+      <a href="#" target="_blank">Donate</a>
+    </nav>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 Verkyanas</p>
-  </footer>
+    <main class="hero">
+
+      <!-- ╔══════════════════════════════════════╗ -->
+      <!-- ║           INTRO CARD                 ║ -->
+      <!-- ╚══════════════════════════════════════╝ -->
+      <div class="intro-card">
+
+        <!-- Profile picture — swap profile.png with your own PNG -->
+        <div class="avatar-wrap">
+          <img src="asset/me.jpg" alt="Profile picture" class="avatar" />
+        </div>
+
+        <!-- Greeting -->
+        <h1 class="hello">Hello World!</h1>
+
+        <!-- Typewriter line — edit the data-words list to customise your phrases -->
+        <p class="typewriter-line">
+          <span id="typewriter"></span><span class="caret">|</span>
+        </p>
+
+      </div>
+
+    </main>
+
+    <footer>
+      <span>VV <span class="dot">✦</span> is-a.dev</span>
+      <span>&copy; 2024 Verkyana</span>
+    </footer>
+
+  </div>
+
+  <!--
+    ┌─────────────────────────────────────────┐
+    │  TYPEWRITER WORDS — edit this list!     │
+    │  Each phrase will cycle automatically.  │
+    └─────────────────────────────────────────┘
+  -->
+  <script>
+    const typewriterWords = [
+      "hi, i'm ian.",  // edit this to your name or a greeting
+      "AMD Radeon 7 8845HS, 16GB RAM, 1TB SSD.",  // edit this to your specs or setup
+      "i'm a developer",
+      // add or remove phrases here ↑
+    ];
+  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="projects.css" />
+  <link rel="icon" type="image/x-icon" href="asset/favicon/favicon.ico" />
+</head>
+<body>
+
+  <!-- Space canvas -->
+  <canvas id="spaceCanvas"></canvas>
+
+  <!-- Top-left: Folder -->
+  <div class="folder-wrapper" id="folderWrapper">
+    <button class="folder-btn" id="folderBtn" aria-expanded="false" aria-label="Open projects folder">
+      <svg class="folder-icon" id="folderIcon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12C6 9.79 7.79 8 10 8H18L22 13H38C40.21 13 42 14.79 42 17V36C42 38.21 40.21 40 38 40H10C7.79 40 6 38.21 6 36V12Z"
+              stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+        <path d="M6 20H42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Dropdown -->
+    <nav class="folder-dropdown" id="folderDropdown" aria-hidden="true">
+      <div class="dropdown-inner">
+        <p class="dropdown-header">//- select a project</p>
+        <ul class="project-list" id="projectList">
+          <!-- Populated via JS — edit projects.js to add/remove -->
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Top-right: Back button -->
+  <a href="index.html" class="back-btn" id="backBtn">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>back</span>
+  </a>
+
+  <!-- Centre content -->
+  <main class="hero">
+    <p class="hero-tag">projects of</p>
+    <h1 class="hero-title">VV</h1>
+    <p class="hero-sub">Click the <strong>folder</strong> to explore.</p>
+  </main>
+
+  <script src="projects.js"></script>
+</body>
+</html>

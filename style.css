@@ -1,0 +1,294 @@
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Palette: Rose Gold & Gray, Black Foregrounds ── */
+:root {
+  --rose-gold:      #b76e79;
+  --rose-light:     #e8b4b8;
+  --rose-pale:      #f5dde0;
+  --gray-dark:      #1a1a1a;
+  --gray-mid:       #3a3a3a;
+  --gray-light:     #9a9a9a;
+  --black:          #0d0d0d;
+  --white-soft:     #f0ebe8;
+  --overlay-dark:   rgba(13, 13, 13, 0.55);
+  --overlay-splash: rgba(13, 13, 13, 0.80);
+  --border:         rgba(183, 110, 121, 0.25);
+  --card-bg:        rgba(13, 13, 13, 0.60);
+}
+
+/* ── Base ── */
+html, body {
+  width: 100%; height: 100%;
+  background: var(--black);
+  color: var(--white-soft);
+  font-family: 'Courier Prime', monospace;
+  overflow-x: hidden;
+  cursor: url('asset/judgement.png') 0 0, auto;
+}
+
+
+/* ── Scanline atmosphere ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.04) 3px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 8000;
+}
+
+/* ── Background Video ── */
+#bg-video-wrap {
+  position: fixed; inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease 0.2s;
+}
+
+#bg-video-wrap.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#bg-video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.6) brightness(0.72);
+}
+
+#bg-overlay {
+  position: absolute; inset: 0;
+  background: var(--overlay-dark);
+}
+
+/* ── Splash Screen ── */
+#splash {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--overlay-splash);
+  z-index: 500;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+
+#splash.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Clickable "Enter World" */
+#enter-world {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  transition: transform 0.2s;
+  user-select: none;
+}
+
+#enter-world:hover { transform: scale(1.05); }
+
+#enter-world .asterisk {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: var(--rose-gold);
+  letter-spacing: 0.05em;
+  transition: color 0.25s;
+}
+
+#enter-world .enter-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+  color: var(--white-soft);
+  letter-spacing: 0.06em;
+  transition: color 0.25s;
+}
+
+#enter-world:hover .asterisk  { color: var(--rose-light); }
+#enter-world:hover .enter-text { color: var(--rose-pale); }
+
+.deco {
+  color: var(--rose-gold);
+  font-size: 1rem;
+  margin-top: 1rem;
+  letter-spacing: 0.22em;
+  opacity: 0.65;
+}
+
+/* ── Main Site ── */
+#site {
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.9s ease 0.2s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#site.visible { opacity: 1; }
+
+/* ── Navigation ── */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  background: rgba(13, 13, 13, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 20;
+}
+
+nav a {
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.8rem;
+  color: var(--gray-light);
+  text-decoration: none;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  transition: color 0.2s;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 1px;
+  background: var(--rose-gold);
+  transition: width 0.25s;
+}
+
+nav a:hover,
+nav a.active { color: var(--white-soft); }
+
+nav a:hover::after,
+nav a.active::after { width: 100%; }
+
+/* ── Hero ── */
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+/* ── Intro Card ── */
+.intro-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.8rem 2.5rem 2.5rem;
+  width: min(480px, 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.55),
+              0 0 0 1px rgba(183, 110, 121, 0.1);
+  text-align: center;
+}
+
+/* ── Avatar ── */
+.avatar-wrap {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  border: 2.5px solid var(--rose-gold);
+  padding: 3px;
+  background: var(--gray-dark);
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(183, 110, 121, 0.3);
+  flex-shrink: 0;
+}
+
+/* swap profile.png to change your picture */
+.avatar {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ── Hello heading ── */
+.hello {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  font-weight: 400;
+  color: var(--white-soft);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* ── Typewriter ── */
+.typewriter-line {
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.82rem, 2.5vw, 1rem);
+  color: var(--rose-light);
+  letter-spacing: 0.06em;
+  min-height: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.caret {
+  display: inline-block;
+  color: var(--rose-gold);
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Footer ── */
+footer {
+  padding: 1.2rem 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  background: rgba(13, 13, 13, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+footer span {
+  font-size: 0.7rem;
+  color: var(--gray-light);
+  letter-spacing: 0.1em;
+}
+
+footer .dot { color: var(--rose-gold); }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  nav { gap: 0.8rem 1.4rem; padding: 1rem 1.2rem; }
+  .intro-card { padding: 2rem 1.4rem; gap: 1.1rem; }
+  .avatar-wrap { width: 88px; height: 88px; }
+  footer { padding: 1rem 1.2rem; }
+  #enter-world { flex-direction: column; gap: 0.2rem; }
+}

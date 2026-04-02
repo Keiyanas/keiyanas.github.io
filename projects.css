@@ -1,0 +1,272 @@
+/* =============================================
+   projects.css  —  Projects subpage styles
+   ============================================= */
+
+/* ── Reset & root ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0d0d0d;
+  --surface:     rgba(26, 20, 21, 0.85);
+  --border:      rgba(183, 110, 121, 0.22);
+  --accent:      #b76e79;
+  --accent-dim:  rgba(183, 110, 121, 0.38);
+  --gray:        #3a3a3a;
+  --text:        #d4b8bc;
+  --text-muted:  rgba(183, 150, 155, 0.5);
+  --glow:        0 0 18px rgba(183, 110, 121, 0.38);
+  --radius:      10px;
+  --font-mono:   'Share Tech Mono', monospace;
+  --font-display:'Syne', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-display);
+  overflow-x: hidden;
+}
+
+/* ── Canvas ── */
+#spaceCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Folder wrapper (top-left) ── */
+.folder-wrapper {
+  position: fixed;
+  top: 28px;
+  left: 32px;
+  z-index: 100;
+}
+
+/* Folder button */
+.folder-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 18px 10px 14px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.folder-btn:hover,
+.folder-btn[aria-expanded="true"] {
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+  background: rgba(183, 110, 121, 0.08);
+}
+
+.folder-icon {
+  width: 26px;
+  height: 26px;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+  flex-shrink: 0;
+}
+.folder-btn[aria-expanded="true"] .folder-icon {
+  transform: translateY(-2px) scale(1.1);
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
+.folder-label {
+  user-select: none;
+}
+
+/* ── Dropdown ── */
+.folder-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  /* closed state */
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition:
+    max-height 0.38s cubic-bezier(.4,0,.2,1),
+    opacity    0.28s ease,
+    transform  0.28s cubic-bezier(.4,0,.2,1);
+}
+.folder-dropdown.open {
+  max-height: 420px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+  box-shadow: var(--glow), 0 8px 40px rgba(0,0,0,0.6);
+}
+
+.dropdown-inner {
+  padding: 16px 0 12px;
+}
+
+.dropdown-header {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 0 18px 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+}
+
+/* Project list */
+.project-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  transition: background 0.18s, color 0.18s, padding-left 0.18s;
+  position: relative;
+}
+.project-list li a::before {
+  content: '→';
+  color: var(--accent-dim);
+  font-size: 0.75rem;
+  transition: color 0.18s, transform 0.18s;
+}
+.project-list li a:hover {
+  background: rgba(183, 110, 121, 0.07);
+  color: var(--accent);
+  padding-left: 22px;
+}
+.project-list li a:hover::before {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+.project-tag {
+  margin-left: auto;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+
+/* ── Back button (top-right) ── */
+.back-btn {
+  position: fixed;
+  top: 28px;
+  right: 32px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: color 0.22s, border-color 0.22s, box-shadow 0.22s;
+}
+.back-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.22s;
+}
+.back-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+.back-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 0 24px;
+  gap: 14px;
+  animation: heroIn 0.9s ease both;
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 0 60px rgba(183, 110, 121, 0.25);
+}
+
+.hero-sub {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+.hero-sub strong {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .folder-wrapper { top: 18px; left: 16px; }
+  .back-btn       { top: 18px; right: 16px; }
+}
