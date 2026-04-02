@@ -1,3 +1,3 @@
-## Tests
+## Ver 2 ‼️
 
-Honestly i dunno what im doing and the code is a fucking mess..
+Lwk an improvement but still dunno how to code lmao
