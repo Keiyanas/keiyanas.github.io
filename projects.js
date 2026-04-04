@@ -11,7 +11,8 @@
      tag   — optional label shown on the right (e.g. "React", "2024")
    ============================================================ */
 const PROJECTS = [
-  { name: "Specials",   url: "valentine.html",                tag: "Web for Normie"     },
+  { name: "Specials.",   url: "valentine.html",                tag: "Web for Normies"     },
+  { name: "Edelweiss.",   url: "edelweiss.html",                tag: "Web for My Gf"     },
   // ↓ keep adding as many as you like
 ];
 
