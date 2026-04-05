@@ -12,7 +12,6 @@ function enterSite() {
 
   bgMusic.volume = 0.55;
   bgMusic.play().catch(() => {
-    // music.mp3 not present yet — silently skip
   });
 
   splash.classList.add('hidden');
@@ -25,7 +24,7 @@ enterWorld.addEventListener('touchend', e => { e.preventDefault(); enterSite(); 
 
 // ════════════════════════════════════════
 //  TYPEWRITER
-//  Edit the words in index.html
+//  Edit the words in index.html/here
 // ════════════════════════════════════════
 (function () {
   const el          = document.getElementById('typewriter');
