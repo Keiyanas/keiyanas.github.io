@@ -1,23 +1,13 @@
 /* =============================================
    projects.js  —  Projects subpage logic
    ============================================= */
-
-/* ============================================================
-   🚀  CUSTOMISE YOUR PROJECTS HERE
-   Add/remove objects in the PROJECTS array.
-   Fields:
-     name  — display name
-     url   — where the link goes
-     tag   — optional label shown on the right (e.g. "React", "2024")
-   ============================================================ */
 const PROJECTS = [
   { name: "Specials.",   url: "valentine.html",                tag: "Web for Normies"     },
   { name: "Edelweiss.",   url: "edelweiss.html",                tag: "Web for My Gf"     },
-  // ↓ keep adding as many as you like
 ];
 
 /* ============================================================
-   🎨  SPACE / COMET SETTINGS  (easy to tweak)
+   🎨  SPACE / COMET SETTINGS
    ============================================================ */
 const SPACE_CONFIG = {
   starCount:    180,    // number of background stars
