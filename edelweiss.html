@@ -388,9 +388,6 @@
                        Scaling around (0,0) of THIS group = the flower center.
                        The ellipse at cy=-32 is 32 units above the center,
                        growing outward as scale increases.
-
-          Result: each petal blooms outward from the center, perfectly positioned.
-          No CSS transforms involved — 100% pure SVG, works on all browsers.
         -->
 
         <g transform="translate(200,200) rotate(0)">
@@ -511,9 +508,6 @@
 
         <!-- ══════════════════════════════════════════════════════════
              ✦  EDIT YOUR LETTER CONTENT BELOW  ✦
-             • {{name}} is replaced with the user's name automatically
-             • Add / remove <p> blocks freely — it will scroll
-             • Edit the signature at the bottom
         ══════════════════════════════════════════════════════════ -->
 
         <span class="letter-salutation" id="letter-sal">Hello, {{name}},</span>
@@ -551,11 +545,7 @@
           I wouldn't change a single thing about you.
         </p>
 
-        <!-- ADD MORE PARAGRAPHS HERE — just copy a block:
-        <p>
-          Your text here...
-        </p>
-        -->
+        <!-- ADD MORE PARAGRAPHS HERE — just copy a block: -->
 
         <span class="letter-sig">
           Forever yours, with all my love 🌸
@@ -651,8 +641,7 @@ function burst(el) {
 }
 
 // ══════════════════════════════════════════════════════════════
-//  SVG ANIMATION — Pure setAttribute, no CSS transforms on SVG.
-//  Works identically on Chrome, Firefox, Safari, iOS Safari.
+//  SVG ANIMATION
 // ══════════════════════════════════════════════════════════════
 
 function easeOutBack(t) {
@@ -662,11 +651,6 @@ function easeOutBack(t) {
 }
 function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
-/**
- * Animate an SVG element's scale from `from` to `to` around its local (0,0).
- * Used for bracts: their outer <g> already positions them correctly,
- * so scaling from (0,0) of the inner <g> = scaling from the flower center.
- */
 function animateScale00(el, from, to, dur, delay) {
   setTimeout(() => {
     let t0 = null;
@@ -681,11 +665,6 @@ function animateScale00(el, from, to, dur, delay) {
   }, delay);
 }
 
-/**
- * Animate an SVG element's scale from `from` to `to` around pivot (px, py).
- * Uses the SVG-safe decomposition: translate(px,py) scale(s) translate(-px,-py)
- * Used for leaves and flower center which use absolute SVG coordinates.
- */
 function animateScalePivot(el, px, py, from, to, dur, delay) {
   setTimeout(() => {
     let t0 = null;
@@ -716,10 +695,6 @@ function animateFade(el, from, to, dur, delay) {
   }, delay);
 }
 
-/**
- * Continuous gentle sway using SVG rotate(angle, cx, cy).
- * This is the safest way to rotate an SVG group around a specific point.
- */
 function startSway(el, cx, cy, delay) {
   setTimeout(() => {
     let t0 = null;
